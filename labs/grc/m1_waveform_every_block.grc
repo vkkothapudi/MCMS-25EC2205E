@@ -1,0 +1,2049 @@
+options:
+    parameters:
+        author: ''
+        catch_exceptions: 'True'
+        category: '[GRC Hier Blocks]'
+        cmake_opt: ''
+        comment: ''
+        copyright: ''
+        description: ''
+        gen_cmake: 'On'
+        gen_linking: dynamic
+        generate_options: qt_gui
+        hier_block_src_path: '.:'
+        id: m1_waveform_every_block
+        max_nouts: '0'
+        output_language: python
+        placement: (0,0)
+        qt_qss_theme: ''
+        realtime_scheduling: ''
+        run: 'True'
+        run_command: '{python} -u {filename}'
+        run_options: prompt
+        sizing_mode: fixed
+        thread_safe_setters: ''
+        title: 'M1: Analog communication system, the waveform at every block'
+        window_size: (1400,900)
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        state: enabled
+blocks:
+-   name: alpha
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 1,0,1,2
+        label: '"Channel attenuation alpha"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '0.005'
+        step: '0.005'
+        stop: '1'
+        value: '0.05'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 670
+        - 12
+        state: enabled
+-   name: fc
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 0,0,1,2
+        label: '"Carrier frequency fc (Hz)"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '6000'
+        step: '500'
+        stop: '16000'
+        value: '10000'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 330
+        - 12
+        state: enabled
+-   name: mu
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 0,2,1,2
+        label: '"Modulation index mu"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '0.1'
+        step: '0.05'
+        stop: '1.5'
+        value: '0.75'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 500
+        - 12
+        state: enabled
+-   name: noise_amp
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 1,2,1,2
+        label: '"Noise amplitude (V)"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '0'
+        step: '0.001'
+        stop: '0.05'
+        value: '0.002'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 840
+        - 12
+        state: enabled
+-   name: samp_rate
+    id: variable
+    parameters:
+        comment: ''
+        value: '48000'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 200
+        - 12
+        state: enabled
+-   name: volume
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 2,0,1,2
+        label: '"Loudspeaker volume"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '0'
+        step: '0.05'
+        stop: '1'
+        value: '0.3'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1010
+        - 12
+        state: enabled
+-   name: am_modulator
+    id: blocks_multiply_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1180
+        - 260
+        state: enabled
+-   name: audio_amp
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: 300/0.9
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 680
+        - 260
+        state: enabled
+-   name: audio_lpf
+    id: low_pass_filter
+    parameters:
+        affinity: ''
+        alias: ''
+        beta: '6.76'
+        comment: ''
+        cutoff_freq: '3400'
+        decim: '1'
+        gain: '1'
+        interp: '1'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        samp_rate: samp_rate
+        type: fir_filter_fff
+        width: '600'
+        win: window.WIN_HAMMING
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 480
+        - 520
+        state: enabled
+-   name: blocks_throttle2_0
+    id: blocks_throttle2
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        ignoretag: 'True'
+        limit: auto
+        maximum: '0.1'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        samples_per_second: samp_rate
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 360
+        - 260
+        state: enabled
+-   name: carrier
+    id: analog_sig_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: '1'
+        comment: ''
+        freq: fc
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        offset: '0'
+        phase: '0'
+        samp_rate: samp_rate
+        showports: 'False'
+        type: float
+        waveform: analog.GR_COS_WAVE
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 860
+        - 330
+        state: enabled
+-   name: channel
+    id: blocks_add_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1360
+        - 540
+        state: enabled
+-   name: demodulator
+    id: single_pole_iir_filter_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha: '0.35'
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 720
+        - 560
+        state: enabled
+-   name: detector
+    id: dc_blocker_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        length: '256'
+        long_form: 'True'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: ff
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 250
+        - 560
+        state: enabled
+-   name: diode
+    id: blocks_abs_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 930
+        - 560
+        state: enabled
+-   name: loudspeaker
+    id: audio_sink
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        device_name: ''
+        num_inputs: '1'
+        ok_to_block: 'True'
+        samp_rate: '48000'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 720
+        - 700
+        state: enabled
+-   name: loudspeaker_volume
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: volume
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 480
+        - 700
+        state: enabled
+-   name: mic
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: '0.003'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 520
+        - 260
+        state: enabled
+-   name: mod_index
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: mu
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 860
+        - 200
+        state: enabled
+-   name: mod_plus_one
+    id: blocks_add_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: '1'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1020
+        - 200
+        state: enabled
+-   name: noise
+    id: analog_noise_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: noise_amp
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        noise_type: analog.GR_GAUSSIAN
+        seed: '5'
+        type: float
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1520
+        - 620
+        state: enabled
+-   name: path_loss
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: alpha
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1520
+        - 400
+        state: enabled
+-   name: power_amp
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: 1/(0.55*alpha*mu)
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 250
+        - 700
+        state: enabled
+-   name: rx_antenna_rf
+    id: band_pass_filter
+    parameters:
+        affinity: ''
+        alias: ''
+        beta: '6.76'
+        comment: ''
+        decim: '1'
+        gain: '1'
+        high_cutoff_freq: fc + 3500
+        interp: '1'
+        low_cutoff_freq: fc - 3500
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        samp_rate: samp_rate
+        type: fir_filter_fff
+        width: '1000'
+        win: window.WIN_HAMMING
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1110
+        - 520
+        state: enabled
+-   name: scope_1
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: red
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 3,0,1,1
+        label1: '"OUT: src_sound"'
+        label10: Signal 10
+        label2: Signal 2
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"1 Information source"'
+        nconnections: '1'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 16
+        - 840
+        state: enabled
+-   name: scope_10
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 5,1,1,1
+        label1: '"IN: demodulator"'
+        label10: Signal 10
+        label2: '"OUT: detector"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"10 Detector: IN (blue) and OUT (red)"'
+        nconnections: '2'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 706
+        - 970
+        state: enabled
+-   name: scope_11
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 5,2,1,1
+        label1: '"IN: detector"'
+        label10: Signal 10
+        label2: '"OUT: power_amp"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"11 Amplifier: IN (blue) and OUT (red)"'
+        nconnections: '2'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 936
+        - 970
+        state: enabled
+-   name: scope_12
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 5,3,1,1
+        label1: '"IN: power_amp"'
+        label10: Signal 10
+        label2: Signal 2
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"12 Output transducer + destination"'
+        nconnections: '1'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1166
+        - 970
+        state: enabled
+-   name: scope_2
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 3,1,1,1
+        label1: '"IN: src_sound"'
+        label10: Signal 10
+        label2: '"OUT: mic"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"2 Input transducer: IN (blue) and OUT (red)"'
+        nconnections: '2'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 246
+        - 840
+        state: enabled
+-   name: scope_3
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 3,2,1,1
+        label1: '"IN: mic"'
+        label10: Signal 10
+        label2: '"OUT: audio_amp"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"3 Amplifier: IN (blue) and OUT (red)"'
+        nconnections: '2'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 476
+        - 840
+        state: enabled
+-   name: scope_4
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 3,3,1,1
+        label1: '"IN: audio_amp"'
+        label10: Signal 10
+        label2: '"OUT: am_modulator"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"4 Modulator: IN (blue) and OUT (red)"'
+        nconnections: '2'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 706
+        - 840
+        state: enabled
+-   name: scope_5
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 4,0,1,1
+        label1: '"IN: am_modulator"'
+        label10: Signal 10
+        label2: '"OUT: tx_antenna"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"5 Transmitting antenna: IN (blue) and OUT (red)"'
+        nconnections: '2'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 936
+        - 840
+        state: enabled
+-   name: scope_6
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 4,1,1,1
+        label1: '"IN: tx_antenna"'
+        label10: Signal 10
+        label2: '"OUT: channel"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"6 Channel: IN (blue) and OUT (red)"'
+        nconnections: '2'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1166
+        - 840
+        state: enabled
+-   name: scope_7
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: red
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 4,2,1,1
+        label1: '"OUT: noise"'
+        label10: Signal 10
+        label2: Signal 2
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"7 Noise"'
+        nconnections: '1'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 16
+        - 970
+        state: enabled
+-   name: scope_8
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 4,3,1,1
+        label1: '"IN: channel"'
+        label10: Signal 10
+        label2: '"OUT: rx_antenna_rf"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"8 Receiving antenna: IN (blue) and OUT (red)"'
+        nconnections: '2'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 246
+        - 970
+        state: enabled
+-   name: scope_9
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 5,0,1,1
+        label1: '"IN: rx_antenna_rf"'
+        label10: Signal 10
+        label2: '"OUT: demodulator"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"9 Demodulator: IN (blue) and OUT (red)"'
+        nconnections: '2'
+        size: '960'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '1'
+        ymin: '-1'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 476
+        - 970
+        state: enabled
+-   name: scope_spectra
+    id: qtgui_freq_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'False'
+        average: '0.2'
+        axislabels: 'True'
+        bw: samp_rate
+        color1: '"blue"'
+        color10: '"dark blue"'
+        color2: '"red"'
+        color3: '"green"'
+        color4: '"black"'
+        color5: '"cyan"'
+        color6: '"magenta"'
+        color7: '"yellow"'
+        color8: '"dark red"'
+        color9: '"dark green"'
+        comment: ''
+        ctrlpanel: 'False'
+        fc: '0'
+        fftsize: '4096'
+        freqhalf: 'True'
+        grid: 'True'
+        gui_hint: 6,0,1,4
+        label: Relative Gain
+        label1: '"message"'
+        label10: ''''''
+        label2: '"transmitted AM"'
+        label3: '"received (after RF stage)"'
+        label4: '"recovered"'
+        label5: ''''''
+        label6: ''''''
+        label7: ''''''
+        label8: ''''''
+        label9: ''''''
+        legend: 'True'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        name: '"Spectra: message, transmitted AM, received, recovered"'
+        nconnections: '4'
+        norm_window: 'False'
+        showports: 'False'
+        tr_chan: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_tag: '""'
+        type: float
+        units: dB
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        wintype: window.WIN_BLACKMAN_hARRIS
+        ymax: '20'
+        ymin: '-120'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 16
+        - 1110
+        state: enabled
+-   name: src_sound
+    id: blocks_add_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 220
+        - 260
+        state: enabled
+-   name: tone_1200
+    id: analog_sig_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: '0.33'
+        comment: ''
+        freq: '1200'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        offset: '0'
+        phase: '1'
+        samp_rate: samp_rate
+        showports: 'False'
+        type: float
+        waveform: analog.GR_SIN_WAVE
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 16
+        - 320
+        state: enabled
+-   name: tone_500
+    id: analog_sig_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: '0.62'
+        comment: ''
+        freq: '500'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        offset: '0'
+        phase: '0'
+        samp_rate: samp_rate
+        showports: 'False'
+        type: float
+        waveform: analog.GR_SIN_WAVE
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 16
+        - 200
+        state: enabled
+-   name: tx_antenna
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: '1'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1340
+        - 260
+        state: enabled
+connections:
+-   - am_modulator
+    - '0'
+    - scope_4
+    - '1'
+-   - am_modulator
+    - '0'
+    - scope_5
+    - '0'
+-   - am_modulator
+    - '0'
+    - tx_antenna
+    - '0'
+-   - audio_amp
+    - '0'
+    - mod_index
+    - '0'
+-   - audio_amp
+    - '0'
+    - scope_3
+    - '1'
+-   - audio_amp
+    - '0'
+    - scope_4
+    - '0'
+-   - audio_amp
+    - '0'
+    - scope_spectra
+    - '0'
+-   - audio_lpf
+    - '0'
+    - detector
+    - '0'
+-   - blocks_throttle2_0
+    - '0'
+    - mic
+    - '0'
+-   - carrier
+    - '0'
+    - am_modulator
+    - '1'
+-   - channel
+    - '0'
+    - rx_antenna_rf
+    - '0'
+-   - channel
+    - '0'
+    - scope_6
+    - '1'
+-   - channel
+    - '0'
+    - scope_8
+    - '0'
+-   - demodulator
+    - '0'
+    - audio_lpf
+    - '0'
+-   - demodulator
+    - '0'
+    - scope_10
+    - '0'
+-   - demodulator
+    - '0'
+    - scope_9
+    - '1'
+-   - detector
+    - '0'
+    - power_amp
+    - '0'
+-   - detector
+    - '0'
+    - scope_10
+    - '1'
+-   - detector
+    - '0'
+    - scope_11
+    - '0'
+-   - diode
+    - '0'
+    - demodulator
+    - '0'
+-   - loudspeaker_volume
+    - '0'
+    - loudspeaker
+    - '0'
+-   - mic
+    - '0'
+    - audio_amp
+    - '0'
+-   - mic
+    - '0'
+    - scope_2
+    - '1'
+-   - mic
+    - '0'
+    - scope_3
+    - '0'
+-   - mod_index
+    - '0'
+    - mod_plus_one
+    - '0'
+-   - mod_plus_one
+    - '0'
+    - am_modulator
+    - '0'
+-   - noise
+    - '0'
+    - channel
+    - '1'
+-   - noise
+    - '0'
+    - scope_7
+    - '0'
+-   - path_loss
+    - '0'
+    - channel
+    - '0'
+-   - power_amp
+    - '0'
+    - loudspeaker_volume
+    - '0'
+-   - power_amp
+    - '0'
+    - scope_11
+    - '1'
+-   - power_amp
+    - '0'
+    - scope_12
+    - '0'
+-   - power_amp
+    - '0'
+    - scope_spectra
+    - '3'
+-   - rx_antenna_rf
+    - '0'
+    - diode
+    - '0'
+-   - rx_antenna_rf
+    - '0'
+    - scope_8
+    - '1'
+-   - rx_antenna_rf
+    - '0'
+    - scope_9
+    - '0'
+-   - rx_antenna_rf
+    - '0'
+    - scope_spectra
+    - '2'
+-   - src_sound
+    - '0'
+    - blocks_throttle2_0
+    - '0'
+-   - src_sound
+    - '0'
+    - scope_1
+    - '0'
+-   - src_sound
+    - '0'
+    - scope_2
+    - '0'
+-   - tone_1200
+    - '0'
+    - src_sound
+    - '1'
+-   - tone_500
+    - '0'
+    - src_sound
+    - '0'
+-   - tx_antenna
+    - '0'
+    - path_loss
+    - '0'
+-   - tx_antenna
+    - '0'
+    - scope_5
+    - '1'
+-   - tx_antenna
+    - '0'
+    - scope_6
+    - '0'
+-   - tx_antenna
+    - '0'
+    - scope_spectra
+    - '1'
+metadata:
+    file_format: 1
+    grc_version: 3.10.9.2

@@ -1,0 +1,1795 @@
+options:
+    parameters:
+        author: ''
+        catch_exceptions: 'True'
+        category: '[GRC Hier Blocks]'
+        cmake_opt: ''
+        comment: ''
+        copyright: ''
+        description: ''
+        gen_cmake: 'On'
+        gen_linking: dynamic
+        generate_options: qt_gui
+        hier_block_src_path: '.:'
+        id: m1_comm_system
+        max_nouts: '0'
+        output_language: python
+        placement: (0,0)
+        qt_qss_theme: ''
+        realtime_scheduling: ''
+        run: 'True'
+        run_command: '{python} -u {filename}'
+        run_options: prompt
+        sizing_mode: fixed
+        thread_safe_setters: ''
+        title: 'M1: One message, end to end (AM, DSB-SC, FM, PM)'
+        window_size: (1500,950)
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        state: enabled
+blocks:
+-   name: BT
+    id: variable
+    parameters:
+        comment: ''
+        value: '[2*fmax, 2*fmax, 2*(df + fmax), 2*(kp + 1)*fmax][mod]'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1900
+        - 294
+        state: enabled
+-   name: Pm
+    id: variable
+    parameters:
+        comment: ''
+        value: 0.5*(1 + 0.25*two)
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1900
+        - 232
+        state: enabled
+-   name: Ps
+    id: variable
+    parameters:
+        comment: ''
+        value: '[(1 + mu**2*Pm)/2, Pm/2, 0.5, 0.5][mod]'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1900
+        - 356
+        state: enabled
+-   name: alpha
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 2,0,1,1
+        label: '"Channel attenuation alpha"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '0.1'
+        step: '0.05'
+        stop: '1'
+        value: '0.5'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1760
+        - 12
+        state: enabled
+-   name: df
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 1,1,1,1
+        label: '"FM deviation df (Hz)"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '250'
+        step: '250'
+        stop: '5000'
+        value: '2500'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1220
+        - 12
+        state: enabled
+-   name: fc
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 0,3,1,1
+        label: '"Carrier frequency fc (Hz)"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '6000'
+        step: '500'
+        stop: '20000'
+        value: '10000'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 860
+        - 12
+        state: enabled
+-   name: fm
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 0,2,1,1
+        label: '"Message frequency fm (Hz)"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '250'
+        step: '250'
+        stop: '3000'
+        value: '1000'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 680
+        - 12
+        state: enabled
+-   name: fmax
+    id: variable
+    parameters:
+        comment: ''
+        value: fm*(3 if two else 1)
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1900
+        - 170
+        state: enabled
+-   name: kp
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 1,2,1,1
+        label: '"PM sensitivity kp (rad)"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '0.2'
+        step: '0.1'
+        stop: '2.5'
+        value: '1.5'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1400
+        - 12
+        state: enabled
+-   name: mod
+    id: variable_qtgui_chooser
+    parameters:
+        comment: ''
+        gui_hint: 0,0,1,1
+        label: '"Modulation"'
+        label0: '"AM"'
+        label1: '"DSB-SC"'
+        label2: '"FM"'
+        label3: '"PM"'
+        label4: ''
+        labels: '[]'
+        num_opts: '4'
+        option0: '0'
+        option1: '1'
+        option2: '2'
+        option3: '3'
+        option4: '4'
+        options: '[0, 1, 2]'
+        orient: Qt.QVBoxLayout
+        type: int
+        value: '0'
+        widget: combo_box
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 330
+        - 12
+        state: enabled
+-   name: mu
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 1,0,1,1
+        label: '"AM index mu"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '0.1'
+        step: '0.05'
+        stop: '1.5'
+        value: '0.6'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1040
+        - 12
+        state: enabled
+-   name: nbp
+    id: variable
+    parameters:
+        comment: ''
+        value: int(53*samp_rate/(22.0*fm))//2*2 + 1
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1900
+        - 480
+        state: enabled
+-   name: phi
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 1,3,1,1
+        label: '"LO phase error phi (deg)"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '0'
+        step: '5'
+        stop: '90'
+        value: '0'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1580
+        - 12
+        state: enabled
+-   name: rx_delay
+    id: variable
+    parameters:
+        comment: ''
+        value: (nbp - 1)/2 + 64
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1900
+        - 542
+        state: enabled
+-   name: samp_rate
+    id: variable
+    parameters:
+        comment: ''
+        value: 200e3
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 200
+        - 12
+        state: enabled
+-   name: sigma
+    id: variable
+    parameters:
+        comment: ''
+        value: alpha*(Ps*(samp_rate/2)/(BT*10**(snr/10)))**0.5
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1900
+        - 418
+        state: enabled
+-   name: snr
+    id: variable_qtgui_range
+    parameters:
+        comment: ''
+        gui_hint: 2,1,1,1
+        label: '"Channel SNR in B_T (dB)"'
+        min_len: '200'
+        orient: QtCore.Qt.Horizontal
+        rangeType: float
+        start: '-5'
+        step: '1'
+        stop: '40'
+        value: '20'
+        widget: counter_slider
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1940
+        - 12
+        state: enabled
+-   name: two
+    id: variable_qtgui_chooser
+    parameters:
+        comment: ''
+        gui_hint: 0,1,1,1
+        label: '"Message"'
+        label0: '"Single tone"'
+        label1: '"Two tones (fm and 3fm)"'
+        label2: ''
+        label3: ''
+        label4: ''
+        labels: '[]'
+        num_opts: '2'
+        option0: '0'
+        option1: '1'
+        option2: '2'
+        option3: '3'
+        option4: '4'
+        options: '[0, 1, 2]'
+        orient: Qt.QVBoxLayout
+        type: int
+        value: '0'
+        widget: combo_box
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 500
+        - 12
+        state: enabled
+-   name: w_rx
+    id: variable
+    parameters:
+        comment: ''
+        value: '[3.14159/(2*alpha*mu)*(mod == 0), (mod == 1)/alpha, 1.0*(mod == 2),
+            (mod == 3)/kp]'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1900
+        - 666
+        state: enabled
+-   name: w_tx
+    id: variable
+    parameters:
+        comment: ''
+        value: '[1.0*(mod == k) for k in range(4)]'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1900
+        - 604
+        state: enabled
+-   name: TP1_message
+    id: blocks_add_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 230
+        - 290
+        state: enabled
+-   name: TP2_carrier
+    id: analog_sig_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: '1'
+        comment: ''
+        freq: fc
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        offset: '0'
+        phase: '0'
+        samp_rate: samp_rate
+        showports: 'False'
+        type: float
+        waveform: analog.GR_COS_WAVE
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 230
+        - 420
+        state: enabled
+-   name: TP3_modulated
+    id: blocks_add_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '4'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1150
+        - 380
+        state: enabled
+-   name: TP4_noise
+    id: analog_noise_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: sigma
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        noise_type: analog.GR_GAUSSIAN
+        seed: '42'
+        type: float
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1320
+        - 480
+        state: enabled
+-   name: TP5_received
+    id: blocks_add_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1500
+        - 400
+        state: enabled
+-   name: TP6_rx_bandpass
+    id: band_pass_filter
+    parameters:
+        affinity: ''
+        alias: ''
+        beta: '6.76'
+        comment: ''
+        decim: '1'
+        gain: '1'
+        high_cutoff_freq: fc + BT/2 + fm
+        interp: '1'
+        low_cutoff_freq: max(fc - BT/2 - fm, 300)
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        samp_rate: samp_rate
+        type: fir_filter_fff
+        width: fm
+        win: window.WIN_HAMMING
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 16
+        - 670
+        state: enabled
+-   name: TP7_local_osc
+    id: analog_sig_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: '2'
+        comment: ''
+        freq: fc
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        offset: '0'
+        phase: phi*3.14159265/180
+        samp_rate: samp_rate
+        showports: 'False'
+        type: float
+        waveform: analog.GR_COS_WAVE
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 260
+        - 810
+        state: enabled
+-   name: TP8_detector
+    id: blocks_add_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '4'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1110
+        - 810
+        state: enabled
+-   name: TP9_recovered
+    id: dc_blocker_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        length: '2048'
+        long_form: 'True'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: ff
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1460
+        - 810
+        state: enabled
+-   name: am_envelope
+    id: blocks_abs_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 300
+        - 650
+        state: enabled
+-   name: am_index
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: mu
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 430
+        - 200
+        state: enabled
+-   name: am_modulator
+    id: blocks_multiply_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 770
+        - 220
+        state: enabled
+-   name: am_plus_one
+    id: blocks_add_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: '1'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 600
+        - 200
+        state: enabled
+-   name: blocks_throttle2_0
+    id: blocks_throttle2
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        ignoretag: 'True'
+        limit: auto
+        maximum: '0.1'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        samples_per_second: samp_rate
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1660
+        - 400
+        state: enabled
+-   name: channel_alpha
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: alpha
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1320
+        - 380
+        state: enabled
+-   name: dsb_modulator
+    id: blocks_multiply_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 770
+        - 330
+        state: enabled
+-   name: dsb_product
+    id: blocks_multiply_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 640
+        - 750
+        state: enabled
+-   name: fm_deviation
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: df
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 430
+        - 470
+        state: enabled
+-   name: fm_discriminator
+    id: analog_quadrature_demod_cf
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        gain: samp_rate/(2*3.14159265*df)
+        maxoutbuf: '0'
+        minoutbuf: '0'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 720
+        - 910
+        state: enabled
+-   name: fm_plus_fc
+    id: blocks_add_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: fc
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 600
+        - 470
+        state: enabled
+-   name: fm_vco
+    id: blocks_vco_f
+    parameters:
+        affinity: ''
+        alias: ''
+        amplitude: '1'
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        samp_rate: samp_rate
+        sensitivity: 2*3.14159265
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 770
+        - 460
+        state: enabled
+-   name: pm_carrier
+    id: analog_sig_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: '1'
+        comment: ''
+        freq: fc
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        offset: '0'
+        phase: '0'
+        samp_rate: samp_rate
+        showports: 'False'
+        type: complex
+        waveform: analog.GR_COS_WAVE
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 430
+        - 660
+        state: enabled
+-   name: pm_modulator
+    id: analog_phase_modulator_fc
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        sensitivity: kp
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 430
+        - 580
+        state: enabled
+-   name: pm_phase_detector
+    id: blocks_complex_to_arg
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 720
+        - 1010
+        state: enabled
+-   name: pm_real
+    id: blocks_complex_to_real
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 800
+        - 610
+        state: enabled
+-   name: pm_upconvert
+    id: blocks_multiply_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: complex
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 640
+        - 600
+        state: enabled
+-   name: rx_complex_lo
+    id: analog_sig_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: '1'
+        comment: ''
+        freq: -fc
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        offset: '0'
+        phase: 2*3.14159265*fc*rx_delay/samp_rate
+        samp_rate: samp_rate
+        showports: 'False'
+        type: complex
+        waveform: analog.GR_COS_WAVE
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 300
+        - 1030
+        state: enabled
+-   name: rx_hilbert
+    id: hilbert_fc
+    parameters:
+        affinity: ''
+        alias: ''
+        beta: '6.76'
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_taps: '129'
+        win: window.WIN_HAMMING
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 300
+        - 930
+        state: enabled
+-   name: rx_lowpass
+    id: low_pass_filter
+    parameters:
+        affinity: ''
+        alias: ''
+        beta: '6.76'
+        comment: ''
+        cutoff_freq: 1.5*fmax
+        decim: '1'
+        gain: '1'
+        interp: '1'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        samp_rate: samp_rate
+        type: fir_filter_fff
+        width: fm
+        win: window.WIN_HAMMING
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1260
+        - 790
+        state: enabled
+-   name: rx_select_0
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: w_rx[0]
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 940
+        - 670
+        state: enabled
+-   name: rx_select_1
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: w_rx[1]
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 940
+        - 780
+        state: enabled
+-   name: rx_select_2
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: w_rx[2]
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 940
+        - 890
+        state: enabled
+-   name: rx_select_3
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: w_rx[3]
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 940
+        - 1000
+        state: enabled
+-   name: rx_to_baseband
+    id: blocks_multiply_xx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        num_inputs: '2'
+        type: complex
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 520
+        - 950
+        state: enabled
+-   name: scope_detector
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'True'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 5,2,2,2
+        label1: Signal 1
+        label10: Signal 10
+        label2: Signal 2
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"TP8 detector output (before low-pass)"'
+        nconnections: '1'
+        size: '2000'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '3'
+        ymin: '-3'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1700
+        - 1030
+        state: enabled
+-   name: scope_message
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'False'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 3,0,2,2
+        label1: '"TP1 message"'
+        label10: Signal 10
+        label2: '"TP9 recovered"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"TP1 message (blue) and TP9 recovered (red)"'
+        nconnections: '2'
+        size: '2000'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '2'
+        ymin: '-2'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1700
+        - 610
+        state: enabled
+-   name: scope_signal
+    id: qtgui_time_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'False'
+        axislabels: 'True'
+        color1: blue
+        color10: dark blue
+        color2: red
+        color3: green
+        color4: black
+        color5: cyan
+        color6: magenta
+        color7: yellow
+        color8: dark red
+        color9: dark green
+        comment: ''
+        ctrlpanel: 'False'
+        entags: 'True'
+        grid: 'True'
+        gui_hint: 3,2,2,2
+        label1: '"TP3 transmitted"'
+        label10: Signal 10
+        label2: '"TP5 received"'
+        label3: Signal 3
+        label4: Signal 4
+        label5: Signal 5
+        label6: Signal 6
+        label7: Signal 7
+        label8: Signal 8
+        label9: Signal 9
+        legend: 'True'
+        marker1: '-1'
+        marker10: '-1'
+        marker2: '-1'
+        marker3: '-1'
+        marker4: '-1'
+        marker5: '-1'
+        marker6: '-1'
+        marker7: '-1'
+        marker8: '-1'
+        marker9: '-1'
+        name: '"TP3 transmitted (blue) and TP5 received (red)"'
+        nconnections: '2'
+        size: '2000'
+        srate: samp_rate
+        stemplot: 'False'
+        style1: '1'
+        style10: '1'
+        style2: '1'
+        style3: '1'
+        style4: '1'
+        style5: '1'
+        style6: '1'
+        style7: '1'
+        style8: '1'
+        style9: '1'
+        tr_chan: '0'
+        tr_delay: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_slope: qtgui.TRIG_SLOPE_POS
+        tr_tag: '""'
+        type: float
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        ylabel: Amplitude
+        ymax: '2'
+        ymin: '-2'
+        yunit: '""'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1700
+        - 750
+        state: enabled
+-   name: spectrum
+    id: qtgui_freq_sink_x
+    parameters:
+        affinity: ''
+        alias: ''
+        alpha1: '1.0'
+        alpha10: '1.0'
+        alpha2: '1.0'
+        alpha3: '1.0'
+        alpha4: '1.0'
+        alpha5: '1.0'
+        alpha6: '1.0'
+        alpha7: '1.0'
+        alpha8: '1.0'
+        alpha9: '1.0'
+        autoscale: 'False'
+        average: '0.2'
+        axislabels: 'True'
+        bw: samp_rate
+        color1: '"blue"'
+        color10: '"dark blue"'
+        color2: '"red"'
+        color3: '"green"'
+        color4: '"black"'
+        color5: '"cyan"'
+        color6: '"magenta"'
+        color7: '"yellow"'
+        color8: '"dark red"'
+        color9: '"dark green"'
+        comment: ''
+        ctrlpanel: 'False'
+        fc: '0'
+        fftsize: '4096'
+        freqhalf: 'True'
+        grid: 'True'
+        gui_hint: 5,0,2,2
+        label: Relative Gain
+        label1: '"TP3"'
+        label10: ''''''
+        label2: '"TP5"'
+        label3: '"TP6"'
+        label4: ''''''
+        label5: ''''''
+        label6: ''''''
+        label7: ''''''
+        label8: ''''''
+        label9: ''''''
+        legend: 'True'
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        name: '"Spectra: TP3 transmitted, TP5 received, TP6 after band-pass"'
+        nconnections: '3'
+        norm_window: 'False'
+        showports: 'False'
+        tr_chan: '0'
+        tr_level: '0.0'
+        tr_mode: qtgui.TRIG_MODE_FREE
+        tr_tag: '""'
+        type: float
+        units: dB
+        update_time: '0.10'
+        width1: '1'
+        width10: '1'
+        width2: '1'
+        width3: '1'
+        width4: '1'
+        width5: '1'
+        width6: '1'
+        width7: '1'
+        width8: '1'
+        width9: '1'
+        wintype: window.WIN_BLACKMAN_hARRIS
+        ymax: '10'
+        ymin: '-100'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 1700
+        - 890
+        state: enabled
+-   name: tone1
+    id: analog_sig_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: '1'
+        comment: ''
+        freq: fm
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        offset: '0'
+        phase: '0'
+        samp_rate: samp_rate
+        showports: 'False'
+        type: float
+        waveform: analog.GR_COS_WAVE
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 16
+        - 230
+        state: enabled
+-   name: tone2
+    id: analog_sig_source_x
+    parameters:
+        affinity: ''
+        alias: ''
+        amp: 0.5*two
+        comment: ''
+        freq: 3*fm
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        offset: '0'
+        phase: '0'
+        samp_rate: samp_rate
+        showports: 'False'
+        type: float
+        waveform: analog.GR_COS_WAVE
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 16
+        - 360
+        state: enabled
+-   name: tx_select_0
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: w_tx[0]
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 980
+        - 220
+        state: enabled
+-   name: tx_select_1
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: w_tx[1]
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 980
+        - 340
+        state: enabled
+-   name: tx_select_2
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: w_tx[2]
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 980
+        - 460
+        state: enabled
+-   name: tx_select_3
+    id: blocks_multiply_const_vxx
+    parameters:
+        affinity: ''
+        alias: ''
+        comment: ''
+        const: w_tx[3]
+        maxoutbuf: '0'
+        minoutbuf: '0'
+        type: float
+        vlen: '1'
+    states:
+        bus_sink: false
+        bus_source: false
+        bus_structure: null
+        coordinate:
+        - 980
+        - 580
+        state: enabled
+connections:
+-   - TP1_message
+    - '0'
+    - am_index
+    - '0'
+-   - TP1_message
+    - '0'
+    - dsb_modulator
+    - '0'
+-   - TP1_message
+    - '0'
+    - fm_deviation
+    - '0'
+-   - TP1_message
+    - '0'
+    - pm_modulator
+    - '0'
+-   - TP1_message
+    - '0'
+    - scope_message
+    - '0'
+-   - TP2_carrier
+    - '0'
+    - am_modulator
+    - '1'
+-   - TP2_carrier
+    - '0'
+    - dsb_modulator
+    - '1'
+-   - TP3_modulated
+    - '0'
+    - channel_alpha
+    - '0'
+-   - TP3_modulated
+    - '0'
+    - scope_signal
+    - '0'
+-   - TP3_modulated
+    - '0'
+    - spectrum
+    - '0'
+-   - TP4_noise
+    - '0'
+    - TP5_received
+    - '1'
+-   - TP5_received
+    - '0'
+    - blocks_throttle2_0
+    - '0'
+-   - TP5_received
+    - '0'
+    - scope_signal
+    - '1'
+-   - TP5_received
+    - '0'
+    - spectrum
+    - '1'
+-   - TP6_rx_bandpass
+    - '0'
+    - am_envelope
+    - '0'
+-   - TP6_rx_bandpass
+    - '0'
+    - dsb_product
+    - '0'
+-   - TP6_rx_bandpass
+    - '0'
+    - rx_hilbert
+    - '0'
+-   - TP6_rx_bandpass
+    - '0'
+    - spectrum
+    - '2'
+-   - TP7_local_osc
+    - '0'
+    - dsb_product
+    - '1'
+-   - TP8_detector
+    - '0'
+    - rx_lowpass
+    - '0'
+-   - TP8_detector
+    - '0'
+    - scope_detector
+    - '0'
+-   - TP9_recovered
+    - '0'
+    - scope_message
+    - '1'
+-   - am_envelope
+    - '0'
+    - rx_select_0
+    - '0'
+-   - am_index
+    - '0'
+    - am_plus_one
+    - '0'
+-   - am_modulator
+    - '0'
+    - tx_select_0
+    - '0'
+-   - am_plus_one
+    - '0'
+    - am_modulator
+    - '0'
+-   - blocks_throttle2_0
+    - '0'
+    - TP6_rx_bandpass
+    - '0'
+-   - channel_alpha
+    - '0'
+    - TP5_received
+    - '0'
+-   - dsb_modulator
+    - '0'
+    - tx_select_1
+    - '0'
+-   - dsb_product
+    - '0'
+    - rx_select_1
+    - '0'
+-   - fm_deviation
+    - '0'
+    - fm_plus_fc
+    - '0'
+-   - fm_discriminator
+    - '0'
+    - rx_select_2
+    - '0'
+-   - fm_plus_fc
+    - '0'
+    - fm_vco
+    - '0'
+-   - fm_vco
+    - '0'
+    - tx_select_2
+    - '0'
+-   - pm_carrier
+    - '0'
+    - pm_upconvert
+    - '1'
+-   - pm_modulator
+    - '0'
+    - pm_upconvert
+    - '0'
+-   - pm_phase_detector
+    - '0'
+    - rx_select_3
+    - '0'
+-   - pm_real
+    - '0'
+    - tx_select_3
+    - '0'
+-   - pm_upconvert
+    - '0'
+    - pm_real
+    - '0'
+-   - rx_complex_lo
+    - '0'
+    - rx_to_baseband
+    - '1'
+-   - rx_hilbert
+    - '0'
+    - rx_to_baseband
+    - '0'
+-   - rx_lowpass
+    - '0'
+    - TP9_recovered
+    - '0'
+-   - rx_select_0
+    - '0'
+    - TP8_detector
+    - '0'
+-   - rx_select_1
+    - '0'
+    - TP8_detector
+    - '1'
+-   - rx_select_2
+    - '0'
+    - TP8_detector
+    - '2'
+-   - rx_select_3
+    - '0'
+    - TP8_detector
+    - '3'
+-   - rx_to_baseband
+    - '0'
+    - fm_discriminator
+    - '0'
+-   - rx_to_baseband
+    - '0'
+    - pm_phase_detector
+    - '0'
+-   - tone1
+    - '0'
+    - TP1_message
+    - '0'
+-   - tone2
+    - '0'
+    - TP1_message
+    - '1'
+-   - tx_select_0
+    - '0'
+    - TP3_modulated
+    - '0'
+-   - tx_select_1
+    - '0'
+    - TP3_modulated
+    - '1'
+-   - tx_select_2
+    - '0'
+    - TP3_modulated
+    - '2'
+-   - tx_select_3
+    - '0'
+    - TP3_modulated
+    - '3'
+metadata:
+    file_format: 1
+    grc_version: 3.10.9.2
