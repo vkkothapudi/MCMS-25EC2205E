@@ -1,0 +1,187 @@
+options:
+  parameters: {author: MCMS 25EC2205E, catch_exceptions: 'True', category: '[GRC Hier Blocks]', cmake_opt: '', comment: '', copyright: '', description: '', gen_cmake: 'On', gen_linking: dynamic, generate_options: qt_gui,
+    hier_block_src_path: '.:', id: p3a_fm_bessel, max_nouts: '0', output_language: python, placement: '(0,0)', qt_qss_theme: '', realtime_scheduling: '', run: 'True', run_command: '{python} -u {filename}',
+    run_options: prompt, sizing_mode: fixed, thread_safe_setters: '', title: 'P3A: FM - Bessel lines, Carson bandwidth and the discriminator', window_size: '(1400,900)'}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+blocks:
+- name: samp_rate
+  id: variable
+  parameters: {comment: '', value: 32e3}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [220, 12]
+    rotation: 0
+    state: enabled
+- name: fm
+  id: variable
+  parameters: {comment: '', value: 1e3}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [220, 100]
+    rotation: 0
+    state: enabled
+- name: df
+  id: variable
+  parameters: {comment: '', value: beta*fm}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [370, 12]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters: {comment: '', imports: from scipy.special import jv}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [370, 100]
+    rotation: 0
+    state: enabled
+- name: beta
+  id: variable_qtgui_range
+  parameters: {comment: '', gui_hint: '0,0,1,2', label: '"Modulation index beta"', min_len: '200', orient: QtCore.Qt.Horizontal, rangeType: float, start: '0', step: '0.005', stop: '6', value: '1.0', widget: counter_slider}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 12]
+    rotation: 0
+    state: enabled
+- name: j0_th
+  id: variable_qtgui_label
+  parameters: {comment: '', formatter: 'lambda x: f"{x:.4f}"', gui_hint: '1,0,1,1', label: '"Theory |J0(beta)|"', type: real, value: 'abs(jv(0, beta))'}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 12]
+    rotation: 0
+    state: enabled
+- name: carson
+  id: variable_qtgui_label
+  parameters: {comment: '', formatter: 'lambda x: f"{x:.4f}"', gui_hint: '1,1,1,1', label: '"Carson bandwidth (kHz)"', type: real, value: 2*(df + fm)/1e3}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [990, 12]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters: {comment: '', type: float, waveform: analog.GR_COS_WAVE, freq: fm, amp: '1', offset: '0', samp_rate: samp_rate, phase: '0', showports: 'False'}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 260]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters: {comment: '', type: float, samples_per_second: samp_rate, vlen: '1', ignoretag: 'True', limit: auto, maximum: '0.1'}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 284]
+    rotation: 0
+    state: enabled
+- name: analog_frequency_modulator_fc_0
+  id: analog_frequency_modulator_fc
+  parameters: {comment: '', sensitivity: 2*math.pi*df/samp_rate}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [440, 284]
+    rotation: 0
+    state: enabled
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters: {comment: '', name: '"FM spectrum: carrier + Bessel lines (1 kHz apart)"', ymin: '-80', ymax: '0', nconnections: '1', gui_hint: '2,0,1,2', label1: '"FM signal"', type: complex, fftsize: '4096',
+    wintype: window.WIN_BLACKMAN_hARRIS, fc: '0', bw: samp_rate, average: '0.2', axislabels: 'True', autoscale: 'False', ctrlpanel: 'False', fftsize_ctrl: '', freqhalf: 'True', grid: 'True', label: Relative
+      Gain, units: dB, update_time: '0.10', showports: 'False', legend: 'True', norm_window: 'False', tr_chan: '0', tr_level: '0.0', tr_mode: qtgui.TRIG_MODE_FREE, tr_tag: '""'}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [720, 200]
+    rotation: 0
+    state: enabled
+- name: blocks_moving_average_xx_0
+  id: blocks_moving_average_xx
+  parameters: {comment: '', type: complex, length: '3200', scale: 1/3200, max_iter: '4000', vlen: '1'}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [720, 380]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_mag_0
+  id: blocks_complex_to_mag
+  parameters: {comment: '', vlen: '1'}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [960, 404]
+    rotation: 0
+    state: enabled
+- name: qtgui_number_sink_0
+  id: qtgui_number_sink
+  parameters: {comment: '', type: float, name: '""', nconnections: '1', autoscale: 'False', avg: '0', graph_type: qtgui.NUM_GRAPH_HORIZ, gui_hint: '1,2,1,1', label1: '"Measured carrier |J0(beta)|"', min: '0',
+    max: '1', unit1: '""', factor1: '1', color1: '("black", "black")', update_time: '0.10'}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1140, 380]
+    rotation: 0
+    state: enabled
+- name: analog_quadrature_demod_cf_0
+  id: analog_quadrature_demod_cf
+  parameters: {comment: '', gain: samp_rate/(2*math.pi*1e3)}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [720, 540]
+    rotation: 0
+    state: enabled
+- name: qtgui_time_sink_x_0
+  id: qtgui_time_sink_x
+  parameters: {comment: '', name: '"Discriminator output: instantaneous frequency (kHz)"', size: '320', ymin: '-7', ymax: '7', nconnections: '1', gui_hint: '3,0,1,2', label1: '"f_i(t) - f_c (kHz)"', type: float,
+    srate: samp_rate, autoscale: 'False', axislabels: 'True', ctrlpanel: 'False', entags: 'True', grid: 'True', legend: 'True', stemplot: 'False', tr_chan: '0', tr_delay: '0', tr_level: '0.0', tr_mode: qtgui.TRIG_MODE_FREE,
+    tr_slope: qtgui.TRIG_SLOPE_POS, tr_tag: '""', update_time: '0.10', ylabel: Amplitude, yunit: '""'}
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [980, 520]
+    rotation: 0
+    state: enabled
+connections:
+- [analog_sig_source_x_0, '0', blocks_throttle2_0, '0']
+- [blocks_throttle2_0, '0', analog_frequency_modulator_fc_0, '0']
+- [analog_frequency_modulator_fc_0, '0', qtgui_freq_sink_x_0, '0']
+- [analog_frequency_modulator_fc_0, '0', blocks_moving_average_xx_0, '0']
+- [blocks_moving_average_xx_0, '0', blocks_complex_to_mag_0, '0']
+- [blocks_complex_to_mag_0, '0', qtgui_number_sink_0, '0']
+- [analog_frequency_modulator_fc_0, '0', analog_quadrature_demod_cf_0, '0']
+- [analog_quadrature_demod_cf_0, '0', qtgui_time_sink_x_0, '0']
+metadata: {file_format: 1, grc_version: 3.10.9.2}
